@@ -54,87 +54,109 @@ namespace C_Homework_1
         //поиск по автору
         public void Author_search(string aurth_name)
         {
+            bool exist = false;
             for(int i = 0; i < Books_in_Lib.Count(); i++)
             {
                 if(Books_in_Lib[i].book.Author == aurth_name)
                 {
+                    exist = true;
                     Console.WriteLine("Название: {0}, автор: {1}", Books_in_Lib[i].book.Name, Books_in_Lib[i].book.Author);
                     if (Books_in_Lib[i].subscr == null) Console.WriteLine("выдана");
                     else Console.WriteLine("в библиотеке");
                 }
             }
+            if (exist == false) Console.WriteLine("Такой книги нет");
         }
 
         //поиск по названию
         public void Name_search(string book_name)
         {
+            bool exist = false;
             for (int i = 0; i < Books_in_Lib.Count(); i++)
             {
                 if (Books_in_Lib[i].book.Name == book_name)
                 {
+                    exist = true;
                     Console.WriteLine("Название: {0}, автор: {1}", Books_in_Lib[i].book.Name, Books_in_Lib[i].book.Author);
                     if (Books_in_Lib[i].subscr == null) Console.WriteLine("выдана");
                     else Console.WriteLine("в библиотеке");
                 }
             }
+            if (exist == false) Console.WriteLine("Такой книги нет");
         }
 
         //выдача книг
         public void Give_book(Subscriber sub, Book book)
         {
-            bool active = true;
-            int num_book = 0;
-            int rare_num_book = 0;
-            int currbook = 0;
-            for (int i = 0; i < Books_in_Lib.Count(); i++)
+            if (Books_in_Lib.Count() != 0)
             {
-                if (Books_in_Lib[i].book == book)
+                bool active = true;
+                int num_book = 0;
+                int rare_num_book = 0;
+                int currbook = -1;
+                for (int i = 0; i < Books_in_Lib.Count(); i++)
                 {
-                    currbook = i;
-                    if (Books_in_Lib[i].subscr != null) active = false;
-                }
-                else
-                {
-                    if (Books_in_Lib[i].subscr != null)
+                    if (Books_in_Lib[i].book == book)
                     {
-                        if (Books_in_Lib[i].subscr == sub)
+                        currbook = i;
+                        if (Books_in_Lib[i].subscr != null) active = false;
+                    }
+                    else
+                    {
+                        if (Books_in_Lib[i].subscr != null)
                         {
-                            num_book++;
-                            if (Books_in_Lib[i].book.Rare == true) rare_num_book++;
+                            if (Books_in_Lib[i].subscr == sub)
+                            {
+                                num_book++;
+                                if (Books_in_Lib[i].book.Rare == true) rare_num_book++;
+                            }
+                            if (DateTime.Today.Subtract(Convert.ToDateTime(Books_in_Lib[i].date)).TotalDays > 14) active = false;
                         }
-                        if (DateTime.Today.Subtract(Convert.ToDateTime(Books_in_Lib[i].date)).TotalDays > 14) active = false;
                     }
                 }
+                if (currbook == -1) Console.WriteLine("Данной книги в библиотеке нет");
+                else
+                {
+                    if (active && (num_book < 5) && ((rare_num_book < 2 && book.Rare != true) || (rare_num_book < 1 && book.Rare == true)))
+                    {
+                        Books_in_Lib.RemoveAt(currbook);
+                        Book_Subscr newbook = new Book_Subscr();
+                        newbook.book = book;
+                        newbook.subscr = sub;
+                        newbook.date = DateTime.Today.Date.ToShortDateString();
+                        Books_in_Lib.Add(newbook);
+                    }
+                    else Console.WriteLine("Выдача книги невозможна");
+                }
             }
-            if (active && (num_book < 5) && ((rare_num_book < 2 && book.Rare != true) || (rare_num_book < 1 && book.Rare == true)))
-            {
-                Books_in_Lib.RemoveAt(currbook);
-                Book_Subscr newbook = new Book_Subscr();
-                newbook.book = book;
-                newbook.subscr = sub;
-                newbook.date = DateTime.Today.Date.ToShortDateString();
-                Books_in_Lib.Add(newbook);
-            }
-            else Console.WriteLine("Выдача книги невозможна");
+            else Console.WriteLine("В библиотеке нет книг");
         }
         //возврат книг
         public void Return_book(Book book)
         {
-            int current = -1;
-            for (int i = 0; i < Books_in_Lib.Count(); i++)
+            if (Books_in_Lib.Count() != 0)
             {
-                if (Books_in_Lib[i].book == book)
+                int current = -1;
+                for (int i = 0; i < Books_in_Lib.Count(); i++)
                 {
-                    current = i;
-                    break;
+                    if (Books_in_Lib[i].book == book)
+                    {
+                        current = i;
+                        break;
+                    }
+                }
+                if (current == -1) Console.WriteLine("Книгу брали не из данной библиотеки");
+                else
+                {
+                    Books_in_Lib.RemoveAt(current);
+                    Book_Subscr newbook = new Book_Subscr();
+                    newbook.book = book;
+                    newbook.subscr = null;
+                    newbook.date = null;
+                    Books_in_Lib.Add(newbook);
                 }
             }
-            Books_in_Lib.RemoveAt(current);
-            Book_Subscr newbook = new Book_Subscr();
-            newbook.book = book;
-            newbook.subscr = null;
-            newbook.date = null;
-            Books_in_Lib.Add(newbook);
+            else Console.WriteLine("Возврат не возможен, в библиотеке нет книг");
         }
     }
 
@@ -367,6 +389,12 @@ namespace C_Homework_1
             //выдача данному пользователю
             library.Give_book(sub2, book1);
             sub2.Missing_book();
+
+            Console.WriteLine();
+            //Поиск по названию
+            library.Name_search("Шинель");
+            //Поиск по автору
+            library.Author_search("Достоевский Ф. М.");
 
             Console.ReadKey();
         }
