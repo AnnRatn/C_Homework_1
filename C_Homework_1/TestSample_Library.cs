@@ -69,5 +69,12 @@ namespace C_Homework_1
             library.Give_book(sub, book1);
             Assert.NotNull(library.Books_in_Lib[0].subscr);
         }
+
+        //обращение к книге по автору и названию
+        [Test]
+        public void Test_Lib_BookforIndex()
+        {
+            Assert.AreEqual(library["Достоевский Ф. М.", "Преступление и наказание"].book.Rare, false);
+        }
     }
 }

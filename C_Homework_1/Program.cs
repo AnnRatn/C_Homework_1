@@ -23,6 +23,25 @@ namespace C_Homework_1
     {
         public List<Book_Subscr> Books_in_Lib = new List<Book_Subscr>();
         
+        //Поиск по автору или названию
+        public Book_Subscr this[string author, string name]
+        {
+            get
+            {
+                Book_Subscr b = new Book_Subscr();
+                foreach(Book_Subscr book in Books_in_Lib)
+                {
+                    if(book.book.Name == name || book.book.Author == author)
+                    {
+                        b = book;
+                        break;
+                    }
+                }
+                if (b.book == null) throw new Exception();
+                else return b;
+            }
+        }
+
         //добавление книг
         public void Add_book(Book book)
         {
@@ -219,6 +238,11 @@ namespace C_Homework_1
             library = lib;
             Name = name;
             Phone = phone;
+        }
+
+        public Book this[int bookPos]
+        {
+            get { return Having_book()[bookPos]; }
         }
 
         //Основные свойства абонента(имя, телефон)

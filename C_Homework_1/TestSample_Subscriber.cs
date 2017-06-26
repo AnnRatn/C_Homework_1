@@ -52,5 +52,12 @@ namespace C_Homework_1
             library.Books_in_Lib.Add(newbook);
             Assert.AreEqual(sub1.Missing_book()[0].Name, "Преступление и наказание");
         }
+
+        //Проверяем обращение к книге по индексу
+        [Test]
+        public void Test_Sub_BookforIndex()
+        {
+            Assert.AreEqual(sub1[0].Name, "Преступление и наказание");
+        }
     }
 }
