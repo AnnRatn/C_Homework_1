@@ -16,7 +16,6 @@ namespace C_Homework_1
         [SetUp]
         public void New_lib()
         {
-            new NUnit.Framework.Internal.TestExecutionContext().EstablishExecutionEnvironment();
             library = new Library();
             book1 = new Book(library, "Достоевский Ф. М.", "Преступление и наказание", false);
             sub = new Subscriber(library, "Иванов Федор", "8(911)5555555");
