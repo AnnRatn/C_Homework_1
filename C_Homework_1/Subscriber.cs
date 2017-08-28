@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace C_Homework_1
 {
+    [DataContract]
     public class Subscriber
     {
+        [DataMember]
         public string Name { get; private set; }
+
+        [DataMember]
         public string Phone { get; private set; }
+
+        [DataMember]
         public Library library { get; private set; }
+
         public Subscriber(Library lib, string name, string phone)
         {
             library = lib;

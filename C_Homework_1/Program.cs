@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace C_Homework_1
 {
@@ -66,91 +68,108 @@ namespace C_Homework_1
             library.Give_book(sub1, book3);
             Console.WriteLine(book3.Where_book());
             Console.WriteLine(book3.When_book());
-            library.Give_book(sub1, book4);
-            Console.WriteLine(book4.Where_book());
-            Console.WriteLine(book4.When_book());
-            library.Give_book(sub1, book6);
-            Console.WriteLine(book6.Where_book());
-            Console.WriteLine(book6.When_book());
-            library.Give_book(sub1, book7);
-            Console.WriteLine("Книги на руках абонента {0}", sub1.Name);
-            foreach (Book book in sub1.Having_book())
-            {
-                Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
-            }
+            //library.Give_book(sub1, book4);
+            //Console.WriteLine(book4.Where_book());
+            //Console.WriteLine(book4.When_book());
+            //library.Give_book(sub1, book6);
+            //Console.WriteLine(book6.Where_book());
+            //Console.WriteLine(book6.When_book());
+            //library.Give_book(sub1, book7);
+            //Console.WriteLine("Книги на руках абонента {0}", sub1.Name);
+            //foreach (Book book in sub1.Having_book())
+            //{
+            //    Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
+            //}
 
-            Console.WriteLine();
-            Console.WriteLine("Книги в библиотеке");
-            foreach(Book book in library.Books_lib())
-            {
-                Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
-            }
-            Console.WriteLine();
-            Console.WriteLine("Книги у абонентов");
-            foreach (Book book in library.Books_abon())
-            {
-                Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
-            }
+            //Console.WriteLine();
+            //Console.WriteLine("Книги в библиотеке");
+            //foreach(Book book in library.Books_lib())
+            //{
+            //    Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
+            //}
+            //Console.WriteLine();
+            //Console.WriteLine("Книги у абонентов");
+            //foreach (Book book in library.Books_abon())
+            //{
+            //    Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
+            //}
 
-            //Возврат книг
+            ////Возврат книг
             library.Return_book(book1);
-            library.Return_book(book2);
-            library.Return_book(book3);
-            library.Return_book(book4);
-            library.Return_book(book6);
-            Console.WriteLine();
-            Console.WriteLine("Книги в библиотеке");
-            foreach (Book book in library.Books_lib())
+            //library.Return_book(book2);
+            //library.Return_book(book3);
+            //library.Return_book(book4);
+            //library.Return_book(book6);
+            //Console.WriteLine();
+            //Console.WriteLine("Книги в библиотеке");
+            //foreach (Book book in library.Books_lib())
+            //{
+            //    Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
+            //}
+
+            ////Выдача более 2х редких книг
+            //Console.WriteLine();
+            //library.Give_book(sub2, book2);
+            //library.Give_book(sub2, book5);
+
+            ////подменим дату у выданной книги на более раннюю
+            //Book_Subscr newbook = new Book_Subscr(book1, sub2, Convert.ToDateTime("11.05.2017"));
+            //library.Books_in_Lib.RemoveAt(library.Book_Index(book1));
+            //library.Books_in_Lib.Add(newbook);
+            //book1.When_book();
+
+            ////выдача данному пользователю
+            //library.Give_book(sub2, book1);
+            //Console.WriteLine("Просроченные книги на руках абонента {0}", sub2.Name);
+            //foreach (Book book in sub2.Missing_book())
+            //{
+            //    Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
+            //}
+
+            //Console.WriteLine();
+            //Book_Subscr search = new Book_Subscr();
+            //try {
+            //    //Поиск по названию
+            //    search = library.Name_search("Шинель");
+            //    Console.WriteLine("Название: {0}; Автор: {1}", search.book.Name, search.book.Author);
+            //    if (search.subscr == null) Console.WriteLine("В библиотеке");
+            //    else Console.WriteLine("Взял в библиотеке: " + search.subscr.Name);
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("такой книги в библиотеке нет");
+            //}
+            //try { 
+            ////Поиск по автору
+            //search = library.Author_search("Достоевский Ф. М.");
+            //    Console.WriteLine("Название: {0}; Автор: {1}", search.book.Name, search.book.Author);
+            //    if (search.subscr == null) Console.WriteLine("В библиотеке");
+            //    else Console.WriteLine("Взял в библиотеке: " + search.subscr.Name);
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("такой книги в библиотеке нет");
+            //}
+
+            //Book_State s = Book_State.notinLib;
+            //Console.WriteLine(s.ToString());
+
+            var serializer = new NetDataContractSerializer();
+            var xmlWriterSettings = new XmlWriterSettings { Indent = true };
+
+            using (var xmlWriter =
+                            XmlWriter.Create("library.txt", xmlWriterSettings))
             {
-                Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
+                serializer.WriteObject(xmlWriter, library);
             }
 
-            //Выдача более 2х редких книг
-            Console.WriteLine();
-            library.Give_book(sub2, book2);
-            library.Give_book(sub2, book5);
-
-            //подменим дату у выданной книги на более раннюю
-            Book_Subscr newbook = new Book_Subscr(book1, sub2, Convert.ToDateTime("11.05.2017"));
-            library.Books_in_Lib.RemoveAt(library.Book_Index(book1));
-            library.Books_in_Lib.Add(newbook);
-            book1.When_book();
-
-            //выдача данному пользователю
-            library.Give_book(sub2, book1);
-            Console.WriteLine("Просроченные книги на руках абонента {0}", sub2.Name);
-            foreach (Book book in sub2.Missing_book())
+            using (var xmlReader =
+                            XmlReader.Create("library.txt"))
             {
-                Console.WriteLine("Название: {0}; Автор: {1}", book.Name, book.Author);
+                Library desLibrary = (Library)serializer.ReadObject(xmlReader);
+                Console.WriteLine(desLibrary.Books_lib().Count());
             }
 
-            Console.WriteLine();
-            Book_Subscr search = new Book_Subscr();
-            try {
-                //Поиск по названию
-                search = library.Name_search("Шинель");
-                Console.WriteLine("Название: {0}; Автор: {1}", search.book.Name, search.book.Author);
-                if (search.subscr == null) Console.WriteLine("В библиотеке");
-                else Console.WriteLine("Взял в библиотеке: " + search.subscr.Name);
-            }
-            catch
-            {
-                Console.WriteLine("такой книги в библиотеке нет");
-            }
-            try { 
-            //Поиск по автору
-            search = library.Author_search("Достоевский Ф. М.");
-                Console.WriteLine("Название: {0}; Автор: {1}", search.book.Name, search.book.Author);
-                if (search.subscr == null) Console.WriteLine("В библиотеке");
-                else Console.WriteLine("Взял в библиотеке: " + search.subscr.Name);
-            }
-            catch
-            {
-                Console.WriteLine("такой книги в библиотеке нет");
-            }
-
-            Book_State s = Book_State.notinLib;
-            Console.WriteLine(s.ToString());
 
             Console.ReadKey();
         }

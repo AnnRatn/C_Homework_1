@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace C_Homework_1
 {
+    [DataContract]
     public class Book
     {
+        [DataMember]
         public string Author { get; private set; }
+
+        [DataMember]
         public string Name { get; private set; }
+
+        [DataMember]
         public bool Rare { get; private set; }
+
+        [DataMember]
         public Library library { get; private set; }
+
         public Book(Library lib, string auth, string name, bool rare)
         {
             library = lib;

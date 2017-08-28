@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace C_Homework_1
 {
+    [DataContract]
     public struct Book_Subscr
     {
+        [DataMember]
         public readonly Book book;
+
+        [DataMember]
         public readonly Subscriber subscr;
+
+        [DataMember]
         public readonly DateTime date;
+
         public Book_Subscr(Book b, Subscriber sub, DateTime dat)
         {
             book = b;
@@ -25,9 +33,13 @@ namespace C_Homework_1
         notinLib,
     }
 
+    [DataContract]
     public class Library
     {
+        [DataMember]
         public List<Book_Subscr> Books_in_Lib = new List<Book_Subscr>();
+
+        [DataMember]
         private Book_State state = Book_State.inLib;
 
         //событие
