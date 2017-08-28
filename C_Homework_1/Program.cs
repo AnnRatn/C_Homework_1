@@ -154,15 +154,9 @@ namespace C_Homework_1
             //Book_State s = Book_State.notinLib;
             //Console.WriteLine(s.ToString());
 
+            library.Serialize("library.txt");
+
             var serializer = new NetDataContractSerializer();
-            var xmlWriterSettings = new XmlWriterSettings { Indent = true };
-
-            using (var xmlWriter =
-                            XmlWriter.Create("library.txt", xmlWriterSettings))
-            {
-                serializer.WriteObject(xmlWriter, library);
-            }
-
             using (var xmlReader =
                             XmlReader.Create("library.txt"))
             {

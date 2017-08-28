@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using System.Xml;
 
 namespace C_Homework_1
 {
@@ -197,6 +198,18 @@ namespace C_Homework_1
             }
             else Console.WriteLine("Возврат не возможен, в библиотеке нет книг");
         }
-         
+
+        //Сохранение состояния библиотеки в файл
+        public void Serialize(String FileName)
+        {
+            var serializer = new NetDataContractSerializer();
+            var xmlWriterSettings = new XmlWriterSettings { Indent = true };
+
+            using (var xmlWriter =
+                            XmlWriter.Create(FileName, xmlWriterSettings))
+            {
+                serializer.WriteObject(xmlWriter, this);
+            }
+        }
     }
 }
