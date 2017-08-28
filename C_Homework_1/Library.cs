@@ -70,7 +70,7 @@ namespace C_Homework_1
         {
             Book_Subscr newbook = new Book_Subscr(book, null, DateTime.Today.Date);
             Books_in_Lib.Add(newbook);
-            BookAdded.Invoke(this, book);
+            BookAdded?.Invoke(this, book);
         }
 
         //книги на руках у абонентов
@@ -192,7 +192,7 @@ namespace C_Homework_1
                     Book_Subscr newbook = new Book_Subscr(book, null, DateTime.Today.Date);
                     Books_in_Lib.Add(newbook);
                     state = Book_State.inLib;
-                    StateChanged.Invoke(this, state);
+                    StateChanged?.Invoke(this, state);
                 }
             }
             else Console.WriteLine("Возврат не возможен, в библиотеке нет книг");

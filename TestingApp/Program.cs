@@ -14,9 +14,9 @@ namespace TestingApp
         {
             new NUnit.Framework.Internal.TestExecutionContext().EstablishExecutionEnvironment();
             Assembly assembly = Assembly.LoadFrom("C:\\Users\\Анна\\Documents\\Visual Studio 2015\\Projects\\C_Homework_1\\C_Homework_1\\bin\\Debug\\C_Homework_1.exe");
-            foreach(var type in assembly.GetTypes())
+            foreach (var type in assembly.GetTypes())
             {
-                if(type.IsDefined(typeof(TestFixtureAttribute), false))
+                if (type.IsDefined(typeof(TestFixtureAttribute), false))
                 {
                     ConstructorInfo constructorInfo = type.GetConstructor(Type.EmptyTypes);
                     object obj = constructorInfo.Invoke(Type.EmptyTypes);
