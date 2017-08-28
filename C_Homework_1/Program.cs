@@ -154,16 +154,16 @@ namespace C_Homework_1
             //Book_State s = Book_State.notinLib;
             //Console.WriteLine(s.ToString());
 
+            Console.WriteLine(library.Books_lib().Count());
+
             library.Serialize("library.txt");
 
-            var serializer = new NetDataContractSerializer();
-            using (var xmlReader =
-                            XmlReader.Create("library.txt"))
-            {
-                Library desLibrary = (Library)serializer.ReadObject(xmlReader);
-                Console.WriteLine(desLibrary.Books_lib().Count());
-            }
+            library.Return_book(book2);
+            library.Return_book(book3);
+            Console.WriteLine(library.Books_lib().Count());
 
+            library.Deserialize("library.txt");
+            Console.WriteLine(library.Books_lib().Count());
 
             Console.ReadKey();
         }

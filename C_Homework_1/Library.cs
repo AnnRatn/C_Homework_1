@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Xml;
+using System.IO;
 
 namespace C_Homework_1
 {
@@ -211,5 +212,23 @@ namespace C_Homework_1
                 serializer.WriteObject(xmlWriter, this);
             }
         }
+
+        //Получение состояния библиотеки из файла
+        public void Deserialize(String FileName)
+        {
+            var serializer = new NetDataContractSerializer();
+            try
+            {
+                var xmlReader = XmlReader.Create(FileName);
+                Library new_lib = (Library)serializer.ReadObject(xmlReader);
+                this.Books_in_Lib = new_lib.Books_in_Lib;
+                this.state = new_lib.state;
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
